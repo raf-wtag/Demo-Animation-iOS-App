@@ -85,8 +85,17 @@ class ViewController: UIViewController {
   // MARK: - View Controller
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    headerLabelCenterConstraint.constant = 0
+    usernameTextFieldCenterConstraint.constant = 0
+    passwordTextFieldCenterConstraint.constant = 0
 
     // TODO 2
+    UIView.animate(withDuration: 0.5,
+                   delay: 0.4,
+                   options: [],
+                   animations: { [weak self] in
+      self?.view.layoutIfNeeded()
+    }, completion: nil)
   }
 
   override func viewDidLoad() {
@@ -99,6 +108,9 @@ class ViewController: UIViewController {
     super.viewWillAppear(animated)
 
     // TODO 1
+    headerLabelCenterConstraint.constant -= view.bounds.width
+    usernameTextFieldCenterConstraint.constant -= view.bounds.width
+    passwordTextFieldCenterConstraint.constant -= view.bounds.width
   }
 }
 
