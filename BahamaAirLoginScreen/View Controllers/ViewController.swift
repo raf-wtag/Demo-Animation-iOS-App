@@ -113,6 +113,26 @@ class ViewController: UIViewController {
     label.textAlignment = .center
     status.addSubview(label)
   }
+  
+  private func cloudFadeInOutAnimation() {
+    let options: UIView.AnimationOptions = [.repeat, .autoreverse]
+    
+    UIView.animate(withDuration: 1.2, delay: 0.8, options: options) {
+      self.cloud1ImageView.alpha = 0
+    }
+    
+    UIView.animate(withDuration: 2.7, delay: 1.6, options: options) {
+      self.cloud2ImageView.alpha = 0
+    }
+    
+    UIView.animate(withDuration: 1.7, delay: 0.7, options: options) {
+      self.cloud3ImageView.alpha = 0.1
+    }
+    
+    UIView.animate(withDuration: 1.6, delay: 0, options: options) { [weak self] in
+      self?.cloud4ImageView.alpha = 0.3
+    }
+  }
 
   // MARK: - View Controller
   override func viewDidAppear(_ animated: Bool) {
@@ -147,6 +167,8 @@ class ViewController: UIViewController {
       self?.loginButton.alpha = 0.5
       self?.loginButton.backgroundColor = .yellow
     }, completion: nil)
+    
+    cloudFadeInOutAnimation()
   }
 
   override func viewDidLoad() {
