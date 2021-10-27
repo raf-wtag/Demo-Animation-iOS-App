@@ -62,6 +62,38 @@ class ViewController: UIViewController {
   }
 
   // MARK: - Private Methods
+  private func animateClouds() {
+    let options: UIView.AnimationOptions = [.curveEaseInOut, .repeat, .autoreverse]
+    
+    UIView.animate(withDuration: 2.9,
+                   delay: 0,
+                   options: options,
+                   animations: { [weak self] in
+                    self?.cloud1ImageView.frame.size.height *= 1.18
+                    self?.cloud1ImageView.frame.size.width *= 1.18
+    },  completion: nil)
+    
+    UIView.animate(withDuration: 3.0,
+                   delay: 0.2,
+                   options: options,
+                   animations: { [weak self] in
+                    self?.cloud2ImageView.frame.size.height *= 1.18
+                    self?.cloud2ImageView.frame.size.width *= 1.18
+    }, completion: nil)
+    
+    UIView.animate(withDuration: 2.4,
+                   delay: 0.1,
+                   options: options) { [weak self] in
+      self?.cloud3ImageView.frame.size.height *= 1.15
+      self?.cloud3ImageView.frame.size.width *= 1.15
+    }
+    
+    UIView.animate(withDuration: 3.2, delay: 0.5, options: options) { [weak self] in
+      self?.cloud4ImageView.frame.size.height *= 1.23
+      self?.cloud4ImageView.frame.size.width *= 1.23
+    }
+  }
+  
   private func setUpUI() {
     loginButton.layer.cornerRadius = 8.0
     loginButton.layer.masksToBounds = true
@@ -95,6 +127,13 @@ class ViewController: UIViewController {
                    options: [],
                    animations: { [weak self] in
       self?.view.layoutIfNeeded()
+    }, completion: nil)
+    
+    animateClouds()
+    
+    UIView.animate(withDuration: 1, delay: 1.2, options: .repeat, animations: { [weak self] in
+      self?.loginButton.alpha = 0.5
+      self?.loginButton.backgroundColor = .yellow
     }, completion: nil)
   }
 
