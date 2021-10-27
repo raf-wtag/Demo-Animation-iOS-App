@@ -118,13 +118,25 @@ class ViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     headerLabelCenterConstraint.constant = 0
+    
+    UIView.animate(withDuration: 0.5, animations: { [weak self] in
+      self?.view.layoutIfNeeded()
+    })
+    
     usernameTextFieldCenterConstraint.constant = 0
+    
+    UIView.animate(withDuration: 1.5,
+                   delay: 0.3,
+                   options: [.repeat, .curveLinear, .autoreverse],
+                   animations: { [weak self] in
+      self?.view.layoutIfNeeded()
+    }, completion: nil)
+    
     passwordTextFieldCenterConstraint.constant = 0
-
-    // TODO 2
-    UIView.animate(withDuration: 0.5,
+    
+    UIView.animate(withDuration: 1.5,
                    delay: 0.4,
-                   options: [],
+                   options: [.repeat, .curveEaseInOut, .autoreverse],
                    animations: { [weak self] in
       self?.view.layoutIfNeeded()
     }, completion: nil)
@@ -146,7 +158,6 @@ class ViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
 
-    // TODO 1
     headerLabelCenterConstraint.constant -= view.bounds.width
     usernameTextFieldCenterConstraint.constant -= view.bounds.width
     passwordTextFieldCenterConstraint.constant -= view.bounds.width
