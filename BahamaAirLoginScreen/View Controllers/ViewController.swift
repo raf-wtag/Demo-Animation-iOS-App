@@ -56,12 +56,56 @@ class ViewController: UIViewController {
   var statusPosition = CGPoint.zero
 
   // MARK: - IBActions
-
   @IBAction func login() {
     view.endEditing(true)
+    
+    UIView.animate(withDuration: 1.5, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.0, options: [], animations: {
+      self.loginButton.bounds.size.width += 100.0
+    }, completion: nil)
+    
+    UIView.animate(withDuration: 0.33, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: [], animations: { [weak self] in
+      guard let self = self else { return }
+      
+      self.loginButton.center.y -= 60
+      self.loginButton.backgroundColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
+      self.spinner.center = CGPoint(x: 40.0, y: self.loginButton.frame.size.height / 2)
+      self.spinner.alpha = 1.0
+    }, completion: nil)
   }
 
   // MARK: - Private Methods
+  private func animateClouds() {
+    let options: UIView.AnimationOptions = [.curveEaseInOut, .repeat, .autoreverse]
+    
+    UIView.animate(withDuration: 2.9,
+                   delay: 0,
+                   options: options,
+                   animations: { [weak self] in
+                    self?.cloud1ImageView.frame.size.height *= 1.18
+                    self?.cloud1ImageView.frame.size.width *= 1.18
+    },  completion: nil)
+    
+    UIView.animate(withDuration: 3.0,
+                   delay: 0.2,
+                   options: options,
+                   animations: { [weak self] in
+                    self?.cloud2ImageView.frame.size.height *= 1.18
+                    self?.cloud2ImageView.frame.size.width *= 1.18
+    }, completion: nil)
+    
+    UIView.animate(withDuration: 2.4,
+                   delay: 0.1,
+                   options: options) { [weak self] in
+      self?.cloud3ImageView.frame.size.height *= 1.15
+      self?.cloud3ImageView.frame.size.width *= 1.15
+    }
+    
+    UIView.animate(withDuration: 3.2, delay: 0.5, options: options) { [weak self] in
+      self?.cloud4ImageView.frame.size.height *= 1.23
+      self?.cloud4ImageView.frame.size.width *= 1.23
+    }
+  }
+  
   private func setUpUI() {
     loginButton.layer.cornerRadius = 8.0
     loginButton.layer.masksToBounds = true
@@ -81,12 +125,65 @@ class ViewController: UIViewController {
     label.textAlignment = .center
     status.addSubview(label)
   }
+  
+  private func cloudFadeInOutAnimation() {
+    let options: UIView.AnimationOptions = [.repeat, .autoreverse]
+    
+    UIView.animate(withDuration: 1.2, delay: 0.8, options: options) {
+      self.cloud1ImageView.alpha = 0
+    }
+    
+    UIView.animate(withDuration: 2.7, delay: 1.6, options: options) {
+      self.cloud2ImageView.alpha = 0
+    }
+    
+    UIView.animate(withDuration: 1.7, delay: 0.7, options: options) {
+      self.cloud3ImageView.alpha = 0.1
+    }
+    
+    UIView.animate(withDuration: 1.6, delay: 0, options: options) { [weak self] in
+      self?.cloud4ImageView.alpha = 0.3
+    }
+  }
 
   // MARK: - View Controller
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-
-    // TODO 2
+    headerLabelCenterConstraint.constant = 0
+    
+    UIView.animate(withDuration: 0.5, animations: { [weak self] in
+      self?.view.layoutIfNeeded()
+    })
+    
+    usernameTextFieldCenterConstraint.constant = 0
+    
+    UIView.animate(withDuration: 1.5,
+                   delay: 0.3,
+                   usingSpringWithDamping: 0.1,
+                   initialSpringVelocity: 0.0,
+                   options: [],
+                   animations: { [weak self] in
+      self?.view.layoutIfNeeded()
+    }, completion: nil)
+    
+    passwordTextFieldCenterConstraint.constant = 0
+    
+    UIView.animate(withDuration: 1.5,
+                   delay: 0.4,
+                   usingSpringWithDamping: 0.3,
+                   initialSpringVelocity: 0.0,
+                   options: [],
+                   animations: { [weak self] in
+      self?.view.layoutIfNeeded()
+    }, completion: nil)
+    
+    animateClouds()
+    cloudFadeInOutAnimation()
+    
+    UIView.animate(withDuration: 1.0, delay: 0.5, usingSpringWithDamping: 0.1, initialSpringVelocity: 0.0,options: [], animations: { [weak self] in
+      self?.loginButton.center.x -= 300
+      self?.loginButton.alpha = 1.0
+    }, completion: nil)
   }
 
   override func viewDidLoad() {
@@ -98,7 +195,12 @@ class ViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
 
-    // TODO 1
+    headerLabelCenterConstraint.constant -= view.bounds.width
+    usernameTextFieldCenterConstraint.constant -= view.bounds.width
+    passwordTextFieldCenterConstraint.constant -= view.bounds.width
+    
+    loginButton.center.x += 300.0
+    loginButton.alpha = 0.0
   }
 }
 
